@@ -10,7 +10,7 @@ function App() {
     const data = await getData(search)
     let newClima = clima?.filter(clima=>clima.id === data.id)
    
-    if(!newClima.length){
+    if(!newClima.length && data.cod !== '404'){
       setClima([...clima,data])
     }
     //Aguanta pedro
