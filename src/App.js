@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState } from "react";
+import getData from "./component/api";
+import Data from "./component/data";
+import {Centrar,SearchBar} from "./component/styled";
 
 function App() {
+  const [search, setSearch] = useState('')
+  const [clima, setClima] = useState([])
+  const getClima = async () =>{
+    const data = await getData(search)
+    let newClima = clima?.filter(clima=>clima.id === data.id)
+   
+    if(!newClima.length){
+      setClima([...clima,data])
+    }
+    //Aguanta pedro
+  }
+
+
+  const onChange = (e) =>{
+    setSearch(e.target.value)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Centrar>
+    <SearchBar>
+      <span>
+        <input onChange={onChange} placeholder='Search...'/>
+        <button onClick={getClima}><img src="lupa.png" alt="lupa"/></button>
+      </span>
+    </SearchBar>
+    <Data clima={clima} setClima={setClima}/>
+    </Centrar>
   );
 }
 
